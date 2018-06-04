@@ -3,7 +3,7 @@
 
 To develop Solomon, We have to get some first step. 
 First, if you don't have MAC environment, you can't contribute this project. 
-Second, You should have a directory, "/Documents/usetFileSolomon.dir" 
+Second, You should have a directory, "users/Documents/usetFileSolomon.dir" 
 If you don't have, don't worry about it. 
 We serve ssh program to provide initial environment for develop.
 
