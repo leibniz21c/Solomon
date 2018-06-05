@@ -13,4 +13,12 @@ example)
 
 $ ssh SolomonInit 
 Welcome Developer! 
-You are ready to contribute! Thank you.
+You are ready to contribute! Thanks!
+
+
+
+
+
+
+Since beta0.2_m, This features is deleted.
+

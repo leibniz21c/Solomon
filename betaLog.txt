@@ -5,3 +5,12 @@ add README.md
 beta0.11 (Heesung Yang)
 add Solomon/SolomonInit
 add betaLog.txt
+
+beta0.2_m (Heesung Yang)
+Before develope beta0.2 ...
+	modified:   README.md
+	new file:   Solomon/Solomon.c
+	deleted:    Solomon/SolomonInit
+	new file:   Solomon/lib/menuEnt.h
+	new file:   Solomon/lib/sType.h
+	modified:   betaLog.txt
