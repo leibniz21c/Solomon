@@ -14,3 +14,7 @@ Before develope beta0.2 ...
 	new file:   Solomon/lib/menuEnt.h
 	new file:   Solomon/lib/sType.h
 	modified:   betaLog.txt
+
+beta 0.2 (YeongJun Jeong)
+	new file: Solomon/lib/uset.c
+	modified: Solomon/lib/uset.h
