@@ -4,7 +4,7 @@
 #define MAX_NAME 30 //maximum length of user name
 #define MAX_LIST 100
 #define MAX_PNAME 50 //maximum length of file name
-#define USET_PATH "/Documents/usetFileSolomon/" //default path
+#define USET_PATH "bin/uset.bin" //default path
 
 #include <sys/time.h>
 #include <sys/types.h>

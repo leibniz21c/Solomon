@@ -15,6 +15,6 @@ Before develope beta0.2 ...
 	new file:   Solomon/lib/sType.h
 	modified:   betaLog.txt
 
-beta 0.2 (YeongJun Jeong)
+beta 0.22 (YeongJun Jeong)
 	new file: Solomon/lib/uset.c
 	modified: Solomon/lib/uset.h
