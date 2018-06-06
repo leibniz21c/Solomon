@@ -9,11 +9,13 @@
 #include "uset.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "sType.h"
+
 
 void usetInit(struct uset* u){
     if(u == NULL){
-        printf("Invalid uset.\n");
-        exit(-1);
+        fprintf(stderr,"Invalid uset.\n");
+        exit(INIT_ERR);
     }
     else{
         *(u -> u_name) = "NONAME";

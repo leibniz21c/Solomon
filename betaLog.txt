@@ -2,9 +2,17 @@ beta0.1 (Heesung Yang)
 add Solomon/lib/uset.h
 add README.md
 
+
+
+
+
 beta0.11 (Heesung Yang)
 add Solomon/SolomonInit
 add betaLog.txt
+
+
+
+
 
 beta0.2_m (Heesung Yang)
 Before develope beta0.2 ...
@@ -15,6 +23,62 @@ Before develope beta0.2 ...
 	new file:   Solomon/lib/sType.h
 	modified:   betaLog.txt
 
+
+
+
+
+
 beta 0.22 (YeongJun Jeong)
 	new file: Solomon/lib/uset.c
 	modified: Solomon/lib/uset.h
+
+
+
+
+
+
+beta 0.22_c (Every one)
+	diff --git a/README.md b/README.md
+index a8515fc..26d18fd 100644
+--- a/README.md
++++ b/README.md
+@@ -16,9 +16,5 @@ Welcome Developer!
+ You are ready to contribute! Thanks! 
+-
+-
+-
+-
+ Since beta0.2_m, This features is deleted.
+ 
+diff --git a/Solomon/lib/sType.h b/Solomon/lib/sType.h
+index ebc22eb..d12b3fd 100644
+--- a/Solomon/lib/sType.h
++++ b/Solomon/lib/sType.h
+@@ -1,5 +1,6 @@
+ /* In Develope of Solomon, -1 is standard error. */
+ #define ERR -1
++#define INIT_ERR -2
+ 
+ /* To Boolean Variable  */
+ #define BOOL
+diff --git a/Solomon/lib/uset.c b/Solomon/lib/uset.c
+index 0190e9d..27f502d 100644
+--- a/Solomon/lib/uset.c
++++ b/Solomon/lib/uset.c
+@@ -9,11 +9,13 @@
+ #include "uset.h"
+ #include <stdio.h>
+ #include <stdlib.h>
++#include "sType.h"
++
+ 
+ void usetInit(struct uset* u){
+     if(u == NULL){
+-        printf("Invalid uset.\n");
+-        exit(-1);
++        fprintf(stderr,"Invalid uset.\n");
++        exit(INIT_ERR);
+     }
+     else{
+         *(u -> u_name) = "NONAME";
+
