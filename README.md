@@ -16,5 +16,5 @@ Welcome Developer!
 You are ready to contribute! Thanks!
 
 
-Since beta0.2_m, This features is deleted.
+Since beta0.2_m, This features is deleted...
 
