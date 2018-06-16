@@ -1,4 +1,4 @@
-#include "screen.c"
+#include "lib/screen.h"
 
 #define MAX_FILE_PATH 256
 
@@ -58,9 +58,9 @@ int main(void)
                 break;
             case CH_EXEC:
                 
-                
                 break;
             case CH_EXIT:
+                terminalSetting(SOL_COMBACK);
                 exitScreen();
                 break;
             default:

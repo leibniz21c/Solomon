@@ -1,55 +1,22 @@
-
-#include <curses.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <termios.h>
-#include <stdio.h>
-#include <stdlib.h>
-/* In Develope of Solomon, -1 is standard error. */
-#define S_ERR -1
-#define INIT_ERR -2
+#include "screen.h"
 
 
-/* To Boolean Variable  */
-#define BOOL
-#define TRUE 1
-#define FALSE 0
-
-#ifdef BOOL
-typedef int boolean;
-#endif
-
-
-/* Channel Macro. --> in screen.c, to getMenu Funtion */
-#define CH_SETINPUT 1
-#define CH_SETOUTPUT 2
-#define CH_SETRES 3
-#define CH_SETC 4
-#define CH_EXEC 5
-#define CH_EXIT 6
-
-
-#define SOL_SET 1
-#define SOL_COMBACK 0
 
 // Gloval Variable
 int x, y;
 
 void terminalSetting(int how)
 {
-    static struct termios storage;
     struct termios new_setting;
     
     if (how == SOL_SET)
     {
-        tcgetattr(0, &storage);
         tcgetattr(0, &new_setting);
         
         new_setting.c_lflag &= ~ECHO;
         new_setting.c_lflag &= ~ICANON;
         new_setting.c_cc[VMIN] = 1;
+        
         tcsetattr(0 , TCSANOW, &new_setting);
         
         //
@@ -59,7 +26,14 @@ void terminalSetting(int how)
     }
     else if (how == SOL_COMBACK)
     {
-        tcsetattr(0, TCSANOW ,&storage);
+        tcgetattr(0, &new_setting);
+        
+        new_setting.c_lflag |= ECHO;
+        new_setting.c_lflag |= ICANON;
+        new_setting.c_cc[VMIN] = 255;
+        
+        tcsetattr(0 , TCSANOW, &new_setting);
+        
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
     }
@@ -158,15 +132,13 @@ int getMenu()
         if (mv == '\n')
             switch (ch)
         {
-            case 1: return CH_SETINPUT;
-            case 2: return CH_SETOUTPUT;
-            case 3: return CH_SETRES;
-            case 4: return CH_SETC;
-            case 5: return CH_EXEC;
-            case 6:
-                terminalSetting(SOL_COMBACK);
-                return CH_EXIT;
-            default: return S_ERR;
+            case 1: {endwin();return CH_SETINPUT;}
+            case 2: {endwin();return CH_SETOUTPUT;}
+            case 3: {endwin();return CH_SETRES;}
+            case 4: {endwin();return CH_SETC;}
+            case 5:{endwin(); return CH_EXEC;}
+            case 6:{ terminalSetting(SOL_COMBACK);endwin(); return CH_EXIT;}
+            default: {endwin();return S_ERR;}
         }
         else
         {
@@ -225,8 +197,8 @@ void clearRightScreen()
 
 void exitScreen()
 {
+    terminalSetting(SOL_COMBACK);
     // initial Setting
-    initscr();
     clear();
     
     // Writing
@@ -242,7 +214,7 @@ void exitScreen()
     
     move(LINES-1 ,0);
     addstr("Made by KNU group. 2018 OpenSourceProgramming Teamwork");
-    
+    refresh();
     
     move(LINES-1, COLS-1);
     sleep(3);
