@@ -1,31 +1,91 @@
-#include <curses.h>
-#include <stdio.h>
-#include "lib/uset.h"
-#include "lib/sType.h"
-#include "lib/screen.h"
+#include "screen.c"
+
+#define MAX_FILE_PATH 256
 
 //
 // Data Structure
 
 //
 // Function
-int getInitCh(); // Get channel when initial stage.
+
+// import
+
+// In this C file
+void initStr(char * str);
+void turnOnBuffering(void);
+void turnOffBuffering(void);
+
 //
 // Global Variable
-
+char inputPath[MAX_FILE_PATH];
+char outputPath[MAX_FILE_PATH];
+char resultPath[MAX_FILE_PATH];
+char cfilePath[MAX_FILE_PATH];
 
 int main(void)
 {
-	boolean loopControl = TRUE;
-	int ch;
-
-	while (loopControl )
-	{
-		ch = getInitCh();
-		switch (ch) 
-		{
-			default:
-		} // End of Switch	
-	} // End of While
-	return 0;	
+    int channel;
+    
+    initStr(inputPath);
+    initStr(outputPath);
+    initStr(resultPath);
+    initStr(cfilePath);
+    
+    firstScreen();
+    while ( TRUE )
+    {
+        channel = getMenu();
+        switch (channel) {
+            case CH_SETINPUT:
+                turnOnBuffering();
+                
+                turnOffBuffering();
+                break;
+            case CH_SETOUTPUT:
+                turnOnBuffering();
+                
+                turnOffBuffering();
+                break;
+            case CH_SETRES:
+                turnOnBuffering();
+                
+                turnOffBuffering();
+                break;
+            case CH_SETC:
+                turnOnBuffering();
+                
+                turnOffBuffering();
+                break;
+            case CH_EXEC:
+                
+                
+                break;
+            case CH_EXIT:
+                exitScreen();
+                break;
+            default:
+                break;
+        }
+    }
+    
+}
+void initStr(char * str)
+{
+    *str = '\0';
+}
+void turnOnBuffering()
+{
+    struct termios t;
+    tcgetattr(0, &t);
+    t.c_lflag |= ICANON;
+    t.c_cc[VMIN] = 255;
+    tcsetattr(0, TCSANOW, &t);
+}
+void turnOffBuffering()
+{
+    struct termios t;
+    tcgetattr(0, &t);
+    t.c_lflag &= ~ICANON;
+    t.c_cc[VMIN] = 1;
+    tcsetattr(0, TCSANOW, &t);
 }
