@@ -5,7 +5,7 @@
 // Gloval Variable
 int x, y;
 
-void terminalSetting(int how)
+void terminalSetting(int how,struct termios origin)
 {
     struct termios new_setting;
     
@@ -26,13 +26,13 @@ void terminalSetting(int how)
     }
     else if (how == SOL_COMBACK)
     {
-        tcgetattr(0, &new_setting);
+//        tcgetattr(0, &new_setting);
+//        
+//        new_setting.c_lflag |= ECHO;
+//        new_setting.c_lflag |= ICANON;
+//        new_setting.c_cc[VMIN] = 255;
         
-        new_setting.c_lflag |= ECHO;
-        new_setting.c_lflag |= ICANON;
-        new_setting.c_cc[VMIN] = 255;
-        
-        tcsetattr(0 , TCSANOW, &new_setting);
+        tcsetattr(0 , TCSANOW, &origin);
         
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
@@ -45,7 +45,7 @@ void terminalSetting(int how)
 void firstScreen()
 /* if you want to continue, you have to press just any one key. */
 {
-    terminalSetting(SOL_SET);
+//    terminalSetting(SOL_SET,NULL);
     
     // initial Setting
     initscr();
@@ -137,7 +137,7 @@ int getMenu()
             case 3: {endwin();return CH_SETRES;}
             case 4: {endwin();return CH_SETC;}
             case 5:{endwin(); return CH_EXEC;}
-            case 6:{ terminalSetting(SOL_COMBACK);endwin(); return CH_EXIT;}
+            case 6:{ endwin(); return CH_EXIT;}
             default: {endwin();return S_ERR;}
         }
         else
@@ -194,10 +194,29 @@ void clearRightScreen()
             addch(' ');
         }
 }
+void execScreen(){
+    char inputName[20];
+    clear();
+    
+        int i;
+        for (i = 10 ;i < LINES-10 ;i ++) { move(i, 10); addch('|'); } // middle line
+        for (i = 10 ;i < COLS-10 ;i ++) {move(10, i); addch('-'); }
+        for (i = 10 ;i < LINES-10 ;i ++) { move(i, COLS-10); addch('|'); } // middle line
+        for (i = 10 ;i < COLS-10 ;i ++) {move(LINES-10, i); addch('-'); }// top line
+        move(LINES/2,11);
+        addstr("Input File Name?");
+        move(LINES/2,28);
+        refresh();
+        fgets(inputName,20,stdin);
+    
+    
+    
+    
+}
 
 void exitScreen()
 {
-    terminalSetting(SOL_COMBACK);
+//    terminalSetting(SOL_COMBACK);
     // initial Setting
     clear();
     

@@ -30,8 +30,10 @@ int main(void)
     initStr(outputPath);
     initStr(resultPath);
     initStr(cfilePath);
-    
+    struct termios origin_setting;
+    tcgetattr(0,&origin_setting);
     firstScreen();
+    terminalSetting(SOL_SET,origin_setting);
     while ( TRUE )
     {
         channel = getMenu();
@@ -57,10 +59,11 @@ int main(void)
                 turnOffBuffering();
                 break;
             case CH_EXEC:
-                
+                terminalSetting(SOL_COMBACK,origin_setting);
+                execScreen();
                 break;
             case CH_EXIT:
-                terminalSetting(SOL_COMBACK);
+                terminalSetting(SOL_COMBACK,origin_setting);
                 exitScreen();
                 break;
             default:

@@ -35,12 +35,13 @@ typedef int boolean;
 #define SOL_COMBACK 0
 
 
-void terminalSetting(int how);
+void terminalSetting(int how,struct termios origin);
 
 //
 // If you start this program, monitor may display initial screen.
 void firstScreen();
 
+void execScreen();
 
 int getMenu();
 void clearRightScreen();
