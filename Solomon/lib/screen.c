@@ -151,18 +151,53 @@ int getMenu()
     
     return 0;
 }
+
 void clearRightScreen()
+/*  get menu screen.                                           */
 {
-    int i, j;
+    int i, ch = 1;
+    char mv = 0;
+
     
-    for (i = 6; i < LINES-6 ;i ++)
-        for (j = COLS/2+1 ;j < COLS-6 ; j ++)
-        {
-            move(i, j);
-            addch(' ');
-        }
+    // inital Setting
+    initscr();
+    clear();
+    
+    
+    // Lines Writing
+    for (i = 5 ;i < LINES-5 ;i ++) { move(i, COLS/2); addch('|'); } // middle line
+    for (i = 5 ;i < COLS-5 ;i ++) {move(5, i); addch('-'); } // top line
+    for (i = 5 ;i < COLS-5 ;i ++) {move(LINES-5, i); addch('-'); }
+    for (i = 6 ;i < LINES-5 ;i ++) {move(i, 5); addch('|');}
+    for (i = 6 ;i < LINES-5 ;i ++) {move(i, COLS-5); addch('|');}
+    
+    move(7, 10);
+    addstr("< Please Type W, S for move cursor >");
+    
+    
+    // left side screen
+    //
+    // Menu
+    x = 10;
+    y = 18;
+    move(x+2, y);
+    addstr("Set Input File");
+    move(x+4, y);
+    addstr("Set Output File");
+    move(x+6, y);
+    addstr("Set Result File Path");
+    move(x+8, y);
+    addstr("Set C File Path");
+    move(x+10, y);
+    addstr("Execute");
+    move(x+12, y);
+    addstr("Exit");
+    
+    refresh();
+
 }
-void execScreen(){
+void execScreen()
+{
     char inputName[20];
     clear();
     

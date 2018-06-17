@@ -39,21 +39,28 @@ int main(void)
         channel = getMenu();
         switch (channel) {
             case CH_SETINPUT:
+                clearRightScreen();
                 turnOnBuffering();
                 
                 turnOffBuffering();
                 break;
             case CH_SETOUTPUT:
-                turnOnBuffering();
+                clearRightScreen();
+                move(LINES/2 + 10, 10);
                 
-                turnOffBuffering();
+                addstr("Hello ");
+                refresh();
+                sleep(5);
+                endwin();
                 break;
             case CH_SETRES:
+                clearRightScreen();
                 turnOnBuffering();
                 
                 turnOffBuffering();
                 break;
             case CH_SETC:
+                clearRightScreen();
                 turnOnBuffering();
                 
                 turnOffBuffering();
