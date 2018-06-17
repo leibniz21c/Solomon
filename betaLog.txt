@@ -148,3 +148,31 @@ index d12b3fd..1c6cd32 100644
 
 beta0.43
 exit시 echo가 꺼져있는 버그수정
+
+
+beta0.45
+diff --git a/.DS_Store b/.DS_Store
+index 3d217a6..71e133c 100644
+Binary files a/.DS_Store and b/.DS_Store differ
+diff --git a/Solomon/.DS_Store b/Solomon/.DS_Store
+index 71ee25b..b97f3be 100644
+Binary files a/Solomon/.DS_Store and b/Solomon/.DS_Store differ
+diff --git a/Solomon/Solomon b/Solomon/Solomon
+index 405ef54..8d22907 100755
+Binary files a/Solomon/Solomon and b/Solomon/Solomon differ
+diff --git a/Solomon/Solomon.c b/Solomon/Solomon.c
+index c32dd5e..e33604f 100644
+--- a/Solomon/Solomon.c
++++ b/Solomon/Solomon.c
+@@ -40,18 +40,33 @@ int main(void)
+         switch (channel) {
+             case CH_SETINPUT:
+                 clearRightScreen();
+-                turnOnBuffering();
+                 
+-                turnOffBuffering();
++                move(10, COLS/2 + 5);
++                
++                addstr("Input way ? ");
+:
+

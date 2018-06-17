@@ -40,18 +40,33 @@ int main(void)
         switch (channel) {
             case CH_SETINPUT:
                 clearRightScreen();
-                turnOnBuffering();
                 
-                turnOffBuffering();
+                move(10, COLS/2 + 5);
+                
+                addstr("Input way ? ");
+                
+                getstr(inputPath);
+                //addstr(inputPath);        //for test ok
+                
+                refresh();
+                
+                //sleep(5);
+                endwin();
+                
                 break;
             case CH_SETOUTPUT:
                 clearRightScreen();
-                move(LINES/2 + 10, 10);
                 
-                addstr("Hello ");
+                move(10, COLS/2 + 5);
+                
+                addstr("Output way ? ");
+                getstr(outputPath);
+                //addstr(outputPath);       //for test ok
                 refresh();
-                sleep(5);
+                
+                //sleep(5);
                 endwin();
+                
                 break;
             case CH_SETRES:
                 clearRightScreen();
