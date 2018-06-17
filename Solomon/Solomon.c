@@ -7,7 +7,7 @@
 
 //
 // Function
-
+void terminalSetting(int how);
 // import
 
 // In this C file
@@ -26,14 +26,14 @@ int main(void)
 {
     int channel;
     
+    
     initStr(inputPath);
     initStr(outputPath);
     initStr(resultPath);
     initStr(cfilePath);
-    struct termios origin_setting;
-    tcgetattr(0,&origin_setting);
+    
     firstScreen();
-    terminalSetting(SOL_SET,origin_setting);
+    
     while ( TRUE )
     {
         channel = getMenu();
@@ -59,11 +59,11 @@ int main(void)
                 turnOffBuffering();
                 break;
             case CH_EXEC:
-                terminalSetting(SOL_COMBACK,origin_setting);
+                terminalSetting(SOL_COMBACK);
                 execScreen();
                 break;
             case CH_EXIT:
-                terminalSetting(SOL_COMBACK,origin_setting);
+                terminalSetting(SOL_COMBACK);
                 exitScreen();
                 break;
             default:
@@ -91,4 +91,33 @@ void turnOffBuffering()
     t.c_lflag &= ~ICANON;
     t.c_cc[VMIN] = 1;
     tcsetattr(0, TCSANOW, &t);
+}
+void terminalSetting(int how)
+{
+    static struct termios backup;
+    struct termios new_setting;
+    
+    if (how == SOL_SET)
+    {
+        tcgetattr(0, &new_setting);
+        tcgetattr(0, &backup);
+        
+        new_setting.c_lflag &= ~ECHO;
+        new_setting.c_lflag &= ~ICANON;
+        new_setting.c_cc[VMIN] = 1;
+        
+        tcsetattr(0 , TCSANOW, &new_setting);
+        
+        //
+        // Signal
+        signal(SIGINT, SIG_IGN);
+        signal(SIGQUIT, SIG_IGN);
+    }
+    else if (how == SOL_COMBACK)
+    {
+        tcsetattr(0 , TCSANOW, &backup);
+        
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+    }
 }

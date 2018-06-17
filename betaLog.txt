@@ -140,3 +140,11 @@ index d12b3fd..1c6cd32 100644
 +#define CH_EXIT 0  // get out from this program
 +#define CH_USET 1  // Set user info(information)
 +#define CH_HIST 2  // Show History
+
+
+
+
+
+
+beta0.43
+exit시 echo가 꺼져있는 버그수정

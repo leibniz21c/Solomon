@@ -5,39 +5,7 @@
 // Gloval Variable
 int x, y;
 
-void terminalSetting(int how,struct termios origin)
-{
-    struct termios new_setting;
-    
-    if (how == SOL_SET)
-    {
-        tcgetattr(0, &new_setting);
-        
-        new_setting.c_lflag &= ~ECHO;
-        new_setting.c_lflag &= ~ICANON;
-        new_setting.c_cc[VMIN] = 1;
-        
-        tcsetattr(0 , TCSANOW, &new_setting);
-        
-        //
-        // Signal
-        signal(SIGINT, SIG_IGN);
-        signal(SIGQUIT, SIG_IGN);
-    }
-    else if (how == SOL_COMBACK)
-    {
-//        tcgetattr(0, &new_setting);
-//        
-//        new_setting.c_lflag |= ECHO;
-//        new_setting.c_lflag |= ICANON;
-//        new_setting.c_cc[VMIN] = 255;
-        
-        tcsetattr(0 , TCSANOW, &origin);
-        
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-    }
-}
+
 
 
 //
