@@ -43,7 +43,7 @@ int main(void)
                 
                 move(10, COLS/2 + 5);
                 
-                addstr("Input way ? ");
+                addstr("Input Path(name) ? ");
                 
                 getstr(inputPath);
                 //addstr(inputPath);        //for test ok
@@ -59,7 +59,7 @@ int main(void)
                 
                 move(10, COLS/2 + 5);
                 
-                addstr("Output way ? ");
+                addstr("Output Path(name) ? ");
                 getstr(outputPath);
                 //addstr(outputPath);       //for test ok
                 refresh();
@@ -70,15 +70,29 @@ int main(void)
                 break;
             case CH_SETRES:
                 clearRightScreen();
-                turnOnBuffering();
                 
-                turnOffBuffering();
+                move(10, COLS/2 + 5);
+                
+                addstr("Result File Path ? ");
+                getstr(resultPath);
+                //addstr(outputPath);       //for test ok
+                refresh();
+                
+                //sleep(5);
+                endwin();
                 break;
             case CH_SETC:
                 clearRightScreen();
-                turnOnBuffering();
                 
-                turnOffBuffering();
+                move(10, COLS/2 + 5);
+                
+                addstr("C File Directory Path ? ");
+                getstr(cfilePath);
+                //addstr(outputPath);       //for test ok
+                refresh();
+                
+                //sleep(5);
+                endwin();
                 break;
             case CH_EXEC:
                 terminalSetting(SOL_COMBACK);

@@ -12,7 +12,7 @@
 
 void swap(int *x,int *y,int z);
 
-int main()
+int main(int ac, char * args[])
 {
     int i = 0 ;
     int j = 0 ;
@@ -20,7 +20,7 @@ int main()
     int temp2 = 0;
     int ary[50000];
     FILE* fp;
-    fp = fopen("input.txt","r");
+    fp = fopen(args,"r");
     
     for(i=0;i<50000;i++)
     {

@@ -109,6 +109,8 @@ int getMenu(char * input, char * output, char * result, char * cFile)
         if (*cFile != '\0') { addstr("C File Path : "); addstr(cFile);}
         else addstr("C File Path : Default");
         
+        
+        
 //        move(LINES*3/4+4, COLS/2 +10);
 //        if (*cFile != '\0') { addstr("Problem : "); addstr();}
 //        else addstr("Result File Path : Default(Solomon/res)");

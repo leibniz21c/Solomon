@@ -12,14 +12,14 @@
 
 void swap(int *x,int *y,int z);
 
-int main()
+int main(int ac, char * args[])
 {
     int i,j,k=0 ;
     int temp;
     int ary[50000];
     
     FILE* fp;
-    fp = fopen("input.txt","r");
+    fp = fopen(args[1],"r");
     
     for(i=0;i<50000;i++)
     {

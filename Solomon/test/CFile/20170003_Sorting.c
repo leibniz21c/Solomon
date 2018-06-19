@@ -11,7 +11,6 @@ void swap(int* a, int* b){
 }
 
 void quick_sort(int a[],int left,int right)
-
 {
     
     int pivot,i,j,tmp;
@@ -75,12 +74,13 @@ void quick_sort(int a[],int left,int right)
 }
 
 
-int main(void){
+int main(int ac, char * args[])
+{
     int i;
     
     FILE* fp;
     
-    fp = fopen("input.txt","r");
+    fp = fopen(args[1],"r");
     
     for(i=0;i<50000;i++)
         fscanf(fp,"%d",&arr[i]);
