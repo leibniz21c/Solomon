@@ -1,4 +1,6 @@
 #include "screen.h"
+#include <string.h>
+#include <dirent.h>
 
 
 
@@ -43,7 +45,9 @@ void firstScreen()
 int getMenu(char * input, char * output, char * result, char * cFile)
 /*  get menu screen.                                           */
 {
-    int i, ch = 1;
+    DIR * c_dir = NULL;
+    struct dirent * buf;
+    int i, ch = 1, cFileCOL;
     char mv = 0;
     //  0->set directory,   1->set input,  2->set output,  3->set result,
     // 4->set C file,  5-> execute,    6-> exit
@@ -109,11 +113,20 @@ int getMenu(char * input, char * output, char * result, char * cFile)
         if (*cFile != '\0') { addstr("C File Path : "); addstr(cFile);}
         else addstr("C File Path : Default");
         
+        i = LINES/4;
+        cFileCOL = COLS/2+10;
+        move(i, cFileCOL);
+        addstr("< List of C File >");
+        if ( *cFile != '\0' && (c_dir = opendir(cFile)) != NULL )
+        {
+            i += 2;
+            while (( buf = readdir(c_dir) ) != NULL)
+                if (*(buf->d_name)!= '.' ) {move(i++, cFileCOL); addstr(buf->d_name);}
+            closedir(c_dir);
+        }
+        // if not ...
+        /* C File Error 1: No Path, 2: No File*/
         
-        
-//        move(LINES*3/4+4, COLS/2 +10);
-//        if (*cFile != '\0') { addstr("Problem : "); addstr();}
-//        else addstr("Result File Path : Default(Solomon/res)");
 
 	
         move(LINES-1, COLS-1);
