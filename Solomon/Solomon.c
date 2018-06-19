@@ -36,7 +36,7 @@ int main(void)
     
     while ( TRUE )
     {
-        channel = getMenu();
+        channel = getMenu(inputPath, outputPath, resultPath, cfilePath);
         switch (channel) {
             case CH_SETINPUT:
                 clearRightScreen();

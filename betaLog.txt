@@ -176,3 +176,18 @@ index c32dd5e..e33604f 100644
 +                addstr("Input way ? ");
 :
 
+
+
+beta0.5
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   .DS_Store
+	modified:   Solomon/.DS_Store
+	modified:   Solomon/Solomon
+	modified:   Solomon/Solomon.c
+	modified:   Solomon/lib/screen.c
+	modified:   Solomon/lib/screen.h
+
+

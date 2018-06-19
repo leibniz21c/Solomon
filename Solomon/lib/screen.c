@@ -40,7 +40,7 @@ void firstScreen()
 }
 
 
-int getMenu()
+int getMenu(char * input, char * output, char * result, char * cFile)
 /*  get menu screen.                                           */
 {
     int i, ch = 1;
@@ -92,11 +92,34 @@ int getMenu()
     y = 15;
     
     while ( TRUE  )
-    {
+    {	
+        move(LINES*3/4, COLS/2 +10);
+        if (*input != '\0') { addstr("Input File : "); addstr(input);}
+        else addstr("Input File : Default");
+        
+        move(LINES*3/4+1, COLS/2 +10);
+        if (*output != '\0') { addstr("Output File : "); addstr(output);}
+        else addstr("Output File : Default");
+        
+        move(LINES*3/4+2, COLS/2 +10);
+        if (*result != '\0') { addstr("Result File Path : "); addstr(result);}
+        else addstr("Result File Path : Default(Solomon/res)");
+        
+        move(LINES*3/4+3, COLS/2 +10);
+        if (*cFile != '\0') { addstr("C File Path : "); addstr(cFile);}
+        else addstr("C File Path : Default");
+        
+//        move(LINES*3/4+4, COLS/2 +10);
+//        if (*cFile != '\0') { addstr("Problem : "); addstr();}
+//        else addstr("Result File Path : Default(Solomon/res)");
+
+	
         move(LINES-1, COLS-1);
         mv = getch();
         move(LINES-1, COLS-1);
         
+	
+
         if (mv == '\n')
             switch (ch)
         {

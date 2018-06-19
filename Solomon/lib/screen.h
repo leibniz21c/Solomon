@@ -41,6 +41,6 @@ void firstScreen();
 
 void execScreen();
 
-int getMenu();
+int getMenu(char * input, char * output, char * result, char * cFile);
 void clearRightScreen();
 void exitScreen();
