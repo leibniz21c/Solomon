@@ -251,8 +251,6 @@ void execScreen()
         fgets(inputName,20,stdin);
     
     
-    
-    
 }
 
 void exitScreen()

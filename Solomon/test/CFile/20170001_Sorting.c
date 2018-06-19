@@ -12,7 +12,7 @@
 
 void swap(int *x,int *y,int z);
 
-int main(int ac, char * args[])
+int main(int argc, char * argv[])
 {
     int i = 0 ;
     int j = 0 ;
@@ -20,14 +20,14 @@ int main(int ac, char * args[])
     int temp2 = 0;
     int ary[50000];
     FILE* fp;
-    fp = fopen(args,"r");
     
-    for(i=0;i<50000;i++)
-    {
-        fscanf(fp,"%d",&ary[i]);
+    if (argc != 2) {
+        fprintf(stdout, "error");
+        exit(1);
     }
-    
-    fp = fopen("outputSelection.txt","w");
+    fp = fopen(argv[1],"r");
+    for(i=0;i<50000;i++) fscanf(fp,"%d",&ary[i]);
+    fclose(fp);
     
     for (i = 0 ;i < 50000-1 ;i ++)
     {
@@ -42,9 +42,8 @@ int main(int ac, char * args[])
     }
     
     for(i = 0 ; i < 50000;i++)
-    {
-        fprintf(fp,"%d ",ary[i]);
-    }
+        fprintf(stdout,"%d ",ary[i]);
+    
 }
 
 void swap(int *x, int *y, int z)

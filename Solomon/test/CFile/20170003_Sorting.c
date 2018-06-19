@@ -74,23 +74,26 @@ void quick_sort(int a[],int left,int right)
 }
 
 
-int main(int ac, char * args[])
+int main(int argc, char * argv[])
 {
     int i;
     
     FILE* fp;
     
-    fp = fopen(args[1],"r");
+    if (argc != 2) {
+        fprintf(stdout, "error");
+        exit(1);
+    }
+    fp = fopen(argv[1],"r");
     
     for(i=0;i<50000;i++)
         fscanf(fp,"%d",&arr[i]);
-    
-    fp = fopen("outputQuickSort.txt","w");
+    fclose(fp);
     
     quick_sort(arr, 0, 49999);
     
     for(i=0; i<50000; i++){
-        fprintf(fp,"%d ",arr[i]);
+        fprintf(stdout,"%d ",arr[i]);
     }
     
     return 0;

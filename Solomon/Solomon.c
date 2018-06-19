@@ -1,6 +1,11 @@
 #include "lib/screen.h"
+#include <dirent.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 #define MAX_FILE_PATH 256
+#define MAX_INPUT_NUM 100
 
 //
 // Data Structure
@@ -8,6 +13,7 @@
 //
 // Function
 void terminalSetting(int how);
+void execute();
 // import
 
 // In this C file
@@ -95,8 +101,9 @@ int main(void)
                 endwin();
                 break;
             case CH_EXEC:
-                terminalSetting(SOL_COMBACK);
-                execScreen();
+                //                terminalSetting(SOL_COMBACK);
+                //                execScreen();
+                execute();
                 break;
             case CH_EXIT:
                 terminalSetting(SOL_COMBACK);
@@ -156,4 +163,38 @@ void terminalSetting(int how)
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
     }
+    
+}
+void execute()
+{
+    DIR * c_dir = NULL;
+    struct dirent * buf;
+    int input_num=0;
+    char cfileList[MAX_INPUT_NUM][256];
+    int i;
+    
+    if ( *cfilePath != '\0' && (c_dir = opendir(cfilePath)) != NULL )
+    {
+        while (( buf = readdir(c_dir) ) != NULL) {
+            if (*(buf->d_name) != '.' ){
+                strcpy(cfileList[input_num], cfilePath);
+                strcat(cfileList[input_num], "/");
+                strcat(cfileList[input_num], buf->d_name);
+                input_num++;
+            }
+        }
+    }
+    else
+        return; // Error
+    
+    for(i=0;i<input_num;i++)
+    {
+        if(fork() == 0)
+        {
+            execlp("cc","cc",cfileList[i],"-o","test/CFile/temp",NULL);
+            exit(0);
+        }
+        
+    }
+    
 }
