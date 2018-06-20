@@ -13,7 +13,10 @@
 
 //
 // Data Structure
-
+void f(int signum)
+{
+    return;
+}
 //
 // Function
 void terminalSetting(int how);
@@ -105,9 +108,69 @@ int main(void)
                 endwin();
                 break;
             case CH_EXEC:
-                //                terminalSetting(SOL_COMBACK);
-                //                execScreen();
+                clearRightScreen();
+                move(LINES/5+2, COLS/2+10);
+                addstr("Please Wait...");
+                move(LINES-1, COLS-1);
+                refresh();
                 execute();
+    
+                //                execScreen();
+                
+                char path[256] = {0,};
+                FILE * fp;
+                int i = 0, n, stu;
+                char stuNum[10];
+                int result;
+                struct timeval howLong;
+                
+                if (*resultPath == '\0')
+                    strcpy(path, "res/result.txt");
+                else {
+                    strcpy(path, resultPath);
+                    strcat(path, "/result.txt");
+                }
+                endwin();
+
+                fp = fopen(path, "r");
+                if (fp != NULL)
+                {
+                    clearRightScreen();
+                    move(LINES/5 +1 , COLS/2+10);
+                    standout();
+                    addstr("Please type any key...");
+                    standend();
+                    
+                    fscanf(fp, "%d",&n);
+                    for (i = 0 ;i < n ; i ++)
+                    {
+                        fscanf(fp, "%d %d %ld %d",&stu, &result, &(howLong.tv_sec),&(howLong.tv_usec));
+                        sprintf(stuNum, "%d", stu);
+                        move(LINES/5 +3+i, COLS/2+10);
+                        addstr(stuNum);
+                        move(LINES/5 +3+i, COLS/2+20);
+                        addstr(":");
+                        move(LINES/5 +3+i, COLS/2+22);
+                        if (result)
+                        {
+                            addstr("Correct");
+                            move(LINES/5 +3+i, COLS/2+30);
+                            sprintf(path, "%ld.%d Seconds",howLong.tv_sec, howLong.tv_usec/1000);
+                            addstr(path);
+                        }
+                        else
+                            addstr("Wrong");
+                    }
+                    fclose(fp);
+                    
+                    move(LINES-1, COLS-1);
+                    refresh();
+                    
+                    fflush(stdin);
+                    getchar();
+                }
+            
+                endwin();
                 break;
             case CH_EXIT:
                 terminalSetting(SOL_COMBACK);
@@ -176,6 +239,7 @@ void execute()
     int input_num=0;
     char cfileList[MAX_INPUT_NUM][256];
     char cfileList2[MAX_INPUT_NUM][256];
+    char cfileList3[MAX_INPUT_NUM][256];
     int i;
     char ch,chO;
     struct timeval start,end;
@@ -192,12 +256,13 @@ void execute()
         fflush(stdout);
         return;
     }
+    char rPath[256];
     
     if(*resultPath == '\0')
-        strcpy(resultPath,"res/result.txt");
+        strcpy(rPath,"res/result.txt");
     else
-        strcat(resultPath,"/result.txt");
-    FILE* ResFile = fopen(resultPath,"w");
+        strcat(rPath,"/result.txt");
+    FILE* ResFile = fopen(rPath,"w");
     if(ResFile == NULL){
         printf("Result file error");
         fflush(stdout);
@@ -216,25 +281,30 @@ void execute()
     {
         while (( buf = readdir(c_dir) ) != NULL) {
             if (*(buf->d_name) != '.' ){
-                strcpy(cfileList[input_num], cfilePath);
-                strcat(cfileList[input_num], "/");
-                strcat(cfileList[input_num], buf->d_name);
-                
-                strcpy(cfileList2[input_num],buf->d_name);
-                input_num++;
+                int len = strlen(buf->d_name);
+                if (buf->d_name[len-1] == 'c')
+                {
+                    strcpy(cfileList[input_num], cfilePath);
+                    strcat(cfileList[input_num], "/");
+                    strcat(cfileList[input_num], buf->d_name);
+                    strcpy(cfileList2[input_num],cfileList[input_num]);
+                    strcpy(cfileList3[input_num],buf->d_name);
+                    input_num++;
+                }
             }
         }
     }
     else
         return; // Error
+    fprintf(ResFile, "%d\n",input_num);
     
-//    int cfilePathNameLen = strlen(cfilePath);
-//    char ccName[MAX_INPUT_NUM][256];
-//    for(i=0;i<MAX_INPUT_NUM;i++){
-//        char cp[1];
-//        cp[0] = i+65;
-//        strcpy(ccName[i],cp);
-//    }
+    //    int cfilePathNameLen = strlen(cfilePath);
+    //    char ccName[MAX_INPUT_NUM][256];
+    //    for(i=0;i<MAX_INPUT_NUM;i++){
+    //        char cp[1];
+    //        cp[0] = i+65;
+    //        strcpy(ccName[i],cp);
+    //    }
     
     for(i=0;i<input_num;i++){
         int len = strlen(cfileList2[i]);
@@ -252,16 +322,16 @@ void execute()
         {
             signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
-//            printf("자식: %d\n",getpid());
-//            fflush(stdout);
+            //            printf("자식: %d\n",getpid());
+            //            fflush(stdout);
             execlp("cc","cc",cfileList[i],"-o",cfileList2[i],NULL);
             exit(1);
         }
         if (pid>0)
         {
             wait(&ci);
-//            printf("부모: %d\n",pid);
-//            fflush(stdout);
+            //            printf("부모: %d\n",pid);
+            //            fflush(stdout);
             char exargv[256];
             strcpy(exargv,"./");
             
@@ -300,7 +370,11 @@ void execute()
                 isCorr = 0;
             
             if(isCorr == 1){
-                fputs(cfileList2[i],ResFile);
+                char tempC[40];
+                strcpy(tempC, cfileList3[i]);
+                for (int i = 0 ; tempC[i] != '\0' ;i ++)
+                    if (tempC[i] == '_') {tempC[i] = '\0'; break;}
+                fputs(tempC,ResFile);
                 fflush(ResFile);
                 
                 gettimeofday(&start,NULL);
@@ -313,8 +387,18 @@ void execute()
                 }else if(pid2 > 0){
                     wait(&ci);
                     gettimeofday(&end,NULL);
-                
-                    fprintf(ResFile," 1 %f %f\n",0.0, 0.0);
+                    
+                    if (end.tv_usec < start.tv_usec)
+                    {
+                        end.tv_usec = start.tv_usec - end.tv_usec;
+                        end.tv_sec -= 1;
+                        end.tv_sec -= start.tv_sec;
+                    }
+                    else {
+                        end.tv_sec -= start.tv_sec;
+                        end.tv_usec -= start.tv_usec;
+                    }
+                    fprintf(ResFile," 1 %ld %d\n",end.tv_sec, end.tv_usec);
                     fflush(ResFile);
                     
                 }else{
@@ -324,19 +408,23 @@ void execute()
                 
                 
             }else if(isCorr == 0){
-                fputs(cfileList2[i],ResFile);
+                char tempC[40];
+                strcpy(tempC, cfileList3[i]);
+                for (int i = 0 ; tempC[i] != '\0' ;i ++)
+                    if (tempC[i] == '_') {tempC[i] = '\0'; break;}
+                fputs(tempC,ResFile);
                 fputs(" 0 0 0\n",ResFile);
                 fflush(ResFile);
             }
             //pclose(fp);
             
         }  // End of if
-        else if(pid == -1){
+        else if(pid == -1)
             exit(1);
-        }
         
     }
     fclose(OutFile);
     fclose(ResFile);
-    
+
 }
+

@@ -121,7 +121,11 @@ int getMenu(char * input, char * output, char * result, char * cFile)
         {
             i += 2;
             while (( buf = readdir(c_dir) ) != NULL)
-                if (*(buf->d_name)!= '.' ) {move(i++, cFileCOL); addstr(buf->d_name);}
+                if (*(buf->d_name)!= '.' )
+                {
+                    int len = strlen(buf->d_name);
+                    if (buf->d_name[len-1] == 'c') { move(i++, cFileCOL); addstr(buf->d_name); }
+                }
             closedir(c_dir);
         }
         // if not ...
